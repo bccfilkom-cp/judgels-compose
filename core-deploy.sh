@@ -1,35 +1,40 @@
 #!/bin/bash
 
+# Source environment variables
+if [ -f .env ]; then
+  export $(cat .env | sed 's/#.*//g' | xargs)
+fi
+
 # Create directories for judgels client and server
-mkdir -p ./judgels/client/var ./judgels/server/var
+mkdir -p ./judgels/client/var ./judgels/server/var ./logs
 chmod -R 777 ./judgels
 
 # Spin up the Judgels Containers
 docker compose up -d
 
-# Check if the containers are running
-echo 'Waiting for Judgels Server to start...';
-sleep 5
-CONTAINER_COUNT=docker container ls | grep 'judgels-' | grep 'Up' | wc -l
+# Health check for containers
+echo 'Waiting for Judgels services to start...'
+for service in judgels-proxy judgels-client judgels-server judgels-db judgels-rabbitmq; do
+  echo "Checking status of $service..."
+  until [ "`docker inspect -f {{.State.Status}} $service`" == "running" ]; do
+    echo "Waiting for $service to be in 'running' state..."
+    sleep 3
+  done;
+  echo "$service is running."
+done
 
-if [ "$CONTAINER_COUNT" -ne 5 ]; then
-    echo '-----------------------------------------------------------------------'
-    echo 'ERROR: Existing judgels containers does not match the expected count 5 containers'
-    echo 'Please check the logs of the containers for more information.'
-    echo 'Exiting...'
-fi
-
-echo 'Judgels Server is Up and Running!';
+echo 'All Judgels services are up and running!'
 
 # Run the migration
-COMPOSE_NETWORK=judgels-compose_judgels-net
+COMPOSE_NETWORK=$(docker inspect --format='{{range $p, $conf := .NetworkSettings.Networks}}{{$p}}{{end}}' judgels-server)
 
 echo "Running Judgels Server migration...";
 
 docker run --rm \
     --name judgels-server-migrate \
     --network "$COMPOSE_NETWORK" \
+    --env-file .env \
     -v "./conf/judgels-server.yml:/judgels/server/var/conf/judgels-server.yml" \
     -v "./logs/judgels-server.log:/judgels/server/var/log/judgels-server.log" \
-    ghcr.io/ia-toki/judgels/server:latest \
+    ghcr.io/ia-toki/judgels/server:${JUDGELS_VERSION} \
     db migrate
