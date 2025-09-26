@@ -18,9 +18,9 @@ judgels:
   baseDataDir: var/data
 
   rabbitmq:
-    host: localhost         # CHANGE THIS TO CORE VM IP
-    username: judgels       # CHANGE THIS TO VALID RABBITMQ USER
-    password: password      # CHANGE THIS TO VALID RABBITMQ PASSWORD
+    host: ${RABBITMQ_HOST}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
 
 gabriel:
   grading:
@@ -29,7 +29,7 @@ gabriel:
 
   cache:
     cachedBaseDataDir: var/data
-    serverBaseDataDir: user@localhost:/opt/judgels/server/var/data   # CHANGE THIS TO VALID SSH CREDENTIAL AND CORE VM DIRECTORY
+    serverBaseDataDir: ${RSYNC_USER}@${RSYNC_HOST}:/opt/judgels/server/var/data
     rsyncIdentityFile: var/conf/judgels-grader
 
   isolate:
