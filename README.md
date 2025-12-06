@@ -8,14 +8,16 @@ Simplified judgels deployment with docker compose without using the official ans
 
 ## ⚙️ How to use
 
-This docker-compose configuration requires you to prepare  1 core VM and $N$ grader VM. 
+This docker-compose configuration requires you to prepare 1 core VM and $N$ grader VM. 
 
-- Core VM will be used to host the client, server, mysqldb and rabibtmq that can be spin up with containers defined in [docker-compose.yml](./docker-compose.yml). 
-- Grader VM will be used to run the grader system. However, you can also run the grader on your local machine, as long as it has the SSH private key required to access the Core VM. The Core VM must already have the corresponding SSH public key added to its authorized_keys file to allow SSH access. You can spawn the grader container with [spawn-grader.sh](./spawn-grader.sh) shell script.
+- Core VM will be used to host the React Client, Java Server, MySQL Database and RabbitMQ Message Broker that can be spin up with containers defined in [docker-compose.yml](./docker-compose.yml). 
+- The Grader VM is used to run the grading system. You can also run the grader on your local machine, as long as it has the SSH private key that corresponds to the Grader VM’s public key. The Grader VM’s **SSH public key must be added to the Core VM’s `authorized_keys`** to allow SSH access. You can start the grader container using the `spawn-grader.sh` script.
+
 
 For more understanding about how this system works, please see the [architecture diagram](https://judgels.toki.id/assets/images/judgels-deployment-9e088b0e29ea99979220c04935214213.png) and [the concepts](https://judgels.toki.id/docs/deployment/concepts) in the official judgels website.
 
-> [INFO] Make sure Core VM and Grader VM already has docker installed!
+> [!NOTE]   
+> Make sure Core VM and Grader VM already has docker installed!
 
 
 1. Clone this repository in `Core VM`
@@ -62,7 +64,7 @@ sudo ./prov-grader.sh
 
 ```zsh
 chmod +x ./spawn-grader.sh
-./spawn-grader.sh
+sudo ./spawn-grader.sh
 ```
 
 10. And that's all, you're good to go. You can access the web client interface (User and Admin for creating contests) at `CORE_VM_IP`, and the web admin interface (Admin for managing problemsets) at `CORE_VM_IP:9101`, depending on the ports defined in the judgels-server container of your [docker-compose.yml](./docker-compose.yml). To create a contest, log in as superadmin through the web client interface.

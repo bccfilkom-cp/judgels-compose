@@ -29,7 +29,7 @@ gabriel:
 
   cache:
     cachedBaseDataDir: var/data
-    serverBaseDataDir: user@localhost:/opt/judgels/server/var/data   # CHANGE THIS TO VALID SSH CREDENTIAL AND CORE VM DIRECTORY
+    serverBaseDataDir: user@localhost:/opt/judgels/server/var/data   # CHANGE THIS TO VALID CORE VM SSH CREDENTIAL AND CORE VM DIRECTORY
     rsyncIdentityFile: var/conf/judgels-grader
 
   isolate:
