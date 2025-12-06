@@ -68,3 +68,7 @@ sudo ./spawn-grader.sh
 ```
 
 10. And that's all, you're good to go. You can access the web client interface (User and Admin for creating contests) at `CORE_VM_IP`, and the web admin interface (Admin for managing problemsets) at `CORE_VM_IP:9101`, depending on the ports defined in the judgels-server container of your [docker-compose.yml](./docker-compose.yml). To create a contest, log in as superadmin through the web client interface.
+
+## Contributing
+
+If you discovered any issue regarding the judgels docker configuration, please see [ISSUES.md](./ISSUES.md) to create new issue.
