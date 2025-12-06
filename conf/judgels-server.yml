@@ -16,6 +16,9 @@ server:
 
 database:
   driverClass: com.mysql.cj.jdbc.Driver
+  # ADJUST THE DB URL ACCORDING TO YOUR DB DOCKER SERVICE NAME
+  # AND ALSO DATABASE NAME
+  # jdbc:mysql://{DB HOST}/{DB NAME}?useSSL=false&allowPublicKeyRetrieval=true
   url: jdbc:mysql://judgels-db/judgels?useSSL=false&allowPublicKeyRetrieval=true
   user: judgelsuser  # CHANGE THIS
   password: password # CHANGE THIS
@@ -50,12 +53,16 @@ judgels:
   app:
     name: judgels
   rabbitmq:
+    # ADJUST THIS TO YOUR RABBITMQ HOST 
     host: judgels-rabbitmq 
     username: judgels       # CHANGE THIS
     password: password      # CHANGE THIS
 
 jophiel:
   auth:
+    # UNCOMMENT BELOW IF YOU WANT TO ENABLE GOOGLE OAUTH
+    # google:
+    #   clientId: {{ jophiel_auth_google_clientId }}
   userAvatar:
     fs:
       type: local
