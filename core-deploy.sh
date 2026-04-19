@@ -45,5 +45,7 @@ docker run --rm \
     "ghcr.io/ia-toki/judgels/server:${IMAGE_VERSION}" \
     db migrate
 
+docker start judgels-server # attempt to restart judgels server on db migration success
+
 echo "Judgels database migration success!";
 echo "Judgels server is already running! Visit at http://{ip_address} for user interface and http://{ip_address}:9101 for admin interface";
