@@ -29,7 +29,10 @@ gabriel:
 
   cache:
     cachedBaseDataDir: var/data
-    serverBaseDataDir: user@localhost:/opt/judgels/server/var/data   # CHANGE THIS TO VALID CORE VM SSH CREDENTIAL AND CORE VM DIRECTORY
+    # CHANGE THIS TO VALID CORE VM SSH CREDENTIAL AND CORE VM DIRECTORY
+    # If you are running the grader on core vm (1 vm setup), just change this to absolute path dir of the mounted container dir
+    # e.g: /judgels/server/var/data
+    serverBaseDataDir: user@localhost:/opt/judgels/server/var/data   
     rsyncIdentityFile: var/conf/judgels-grader
 
   isolate:
